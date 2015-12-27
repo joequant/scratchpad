@@ -6,24 +6,27 @@ var lc = LC.init(
     {imageURLPrefix: 'literallycanvas/img'}
 );
 
+var scale = 1.0;
+var pageno = 1;
+var canvas =
+    document.querySelector('div.lc-drawing canvas:first-child');
+var context = canvas.getContext('2d');
+var canvas_list =
+    document.querySelectorAll('div.lc-drawing canvas');
+
 PDFJS.getDocument(pdf_file).then(function(pdf) {
-    function draw_pdf(pageno) {
+    function draw_pdf(pageno, scale) {
 	// you can now use *pdf* here
 	pdf.getPage(pageno).then(function(page) {
 	    // you can now use *page* here
-	    var scale = 1.5;
 	    var viewport = page.getViewport(scale);
-	    var i, canvas_list =
-		document.querySelectorAll('div.lc-drawing canvas');
+	    var i;
 	    for (i=0; i < canvas_list.length; ++i) {
 	    	canvas_list[i].style.height = viewport.height;
 		canvas_list[i].style.width = viewport.width;
 		canvas_list[i].height = viewport.height;
 		canvas_list[i].width = viewport.width;
 	    }
-	    var canvas =
-		document.querySelector('div.lc-drawing canvas:first-child');
-	    var context = canvas.getContext('2d');
 	    var renderContext = {
 		canvasContext: context,
 		viewport: viewport
@@ -35,9 +38,14 @@ PDFJS.getDocument(pdf_file).then(function(pdf) {
 	if (layer.layerKey != "background") {
 	    return;
 	}
-	draw_pdf(1);
+	draw_pdf(pageno, scale);
     });
-    draw_pdf(1);
+
+    lc.on("zoom", function(zoom) {
+	scale = zoom.newScale;
+    });
+
+    draw_pdf(pageno, scale);
 });
 
 
