@@ -7,113 +7,13 @@
     <link href="literallycanvas/css/literallycanvas.css" rel="stylesheet">
 
     <!-- dependency: React.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react-with-addons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react-with-addons.min.js"></script>
     <script src="pdfjs/build/pdf.js"></script>
     <!-- Literally Canvas -->
         <script src="literallycanvas/js/literallycanvas.js"></script>
-           <!--
-           link to zebra library from zebra web site
-             -->
-	   <script src='http://repo.zebkit.org/latest/zebra.min.js'
-		   type='text/javascript'>
-	   </script>
-	   
-	   <script>
-	     zebra.ready(function() {
-	     // import all classes, functions, constants
-	     // from zebra.ui, zebra.layout packages
-	        eval(zebra.Import("ui", "layout"));
-	     if (zebra.ui.$detectZCanvas("ui.designer") != null) return;
-
-
-
-	         var root = (new
-	     zebra.ui.zCanvas("ui.designer")).root.properties({
-
-	     layout : new zebra.layout.BorderLayout(4, 4),
-
-	     border : new zebra.ui.Border(),
-
-	     padding: 8,
-
-	     kids: {
-
-	     CENTER: new zebra.ui.BorderPan("Designer panel", new
-	     zebra.ui.Panel({
-
-	     padding: 6,
-
-	     kids: [
-
-	     new zebra.ui.designer.ShaperPan(new
-	     zebra.ui.Checkbox("Check-box").properties({
-
-	     value:true,
-
-	     location: [10, 10]
-
-	     })),
-	     new zebra.ui.designer.ShaperPan(new
-	     zebra.ui.TextField("Hello world\nMeMe", true)),
-	     new zebra.ui.designer.ShaperPan(new
-	     zebra.ui.Button("Button").properties({
-
-	     value:true,
-
-	     location: [90, 50]
-
-	     })),
-
-	     new zebra.ui.designer.ShaperPan(new
-	     zebra.ui.Slider().properties({
-
-	     value:true,
-
-	     size : [120, 60],
-
-	     location: [30, 100]
-
-	     }))
-
-	     ]
-
-	     })),
-
-
-
-	     BOTTOM: new zebra.ui.Button("Align", [
-
-	     function fire() {
-
-	     this.$super();
-
-	     var y = 10, c =
-	     root.findAll("//zebra.ui.designer.ShaperPan");
-
-	     for(var i=0; i < c.length; i++)  {
-
-			      c[i].toPreferredSize();
-
-			      c[i].setLocation(10, y);
-
-			      y += c[i].height + 5;
-
-			      }
-
-			      }
-
-			      ])
-
-			      }
-
-			      });
-			      
-	     });
-			      </script>
   </head>
 
   <body>
-    <canvas width="500" height="500" id="ui.designer"> </canvas>
     <div class="literally"></div>
     	   <script>
 	     // Look ma, no jQuery!
