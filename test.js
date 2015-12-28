@@ -15,11 +15,11 @@ var canvas_list =
     document.querySelectorAll('div.lc-drawing canvas');
 
 PDFJS.getDocument(pdf_file).then(function(pdf) {
-    function draw_pdf(pageno, scale) {
+    function draw_pdf(pageno) {
 	// you can now use *pdf* here
 	pdf.getPage(pageno).then(function(page) {
 	    // you can now use *page* here
-	    var viewport = page.getViewport(scale);
+	    var viewport = page.getViewport(lc.scale);
 	    var i;
 	    for (i=0; i < canvas_list.length; ++i) {
 	    	canvas_list[i].style.height = viewport.height;
@@ -38,14 +38,10 @@ PDFJS.getDocument(pdf_file).then(function(pdf) {
 	if (layer.layerKey != "background") {
 	    return;
 	}
-	draw_pdf(pageno, scale);
+	draw_pdf(pageno);
     });
 
-    lc.on("zoom", function(zoom) {
-	scale = zoom.newScale;
-    });
-
-    draw_pdf(pageno, scale);
+    draw_pdf(pageno);
 });
 
 
