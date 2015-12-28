@@ -15,36 +15,43 @@ var canvas_list =
     document.querySelectorAll('div.lc-drawing canvas');
 
 PDFJS.getDocument(pdf_file).then(function(pdf) {
-    function draw_pdf(pageno) {
-	// you can now use *pdf* here
-	pdf.getPage(pageno).then(function(page) {
-	    // you can now use *page* here
-	    var viewport = page.getViewport(lc.scale);
-	    var i;
-	    for (i=0; i < canvas_list.length; ++i) {
-	    	canvas_list[i].style.height = viewport.height;
-		canvas_list[i].style.width = viewport.width;
-		canvas_list[i].height = viewport.height;
-		canvas_list[i].width = viewport.width;
-	    }
-	    var context = canvas.getContext('2d');
-	    context.setTransform(1, 0, 0, 1, lc.position.x,
-			      lc.position.y);
-	    var renderContext = {
-		canvasContext: context,
-		viewport: viewport
-	    };
-	    page.render(renderContext);
-	});
+    var page;
+    pdf.getPage(pageno).then (
+	function(p) {
+	    page = p;
+	    draw_pdf();
+	}
+    );
+    function draw_pdf() {
+	// you can now use *page* here
+	var viewport = page.getViewport(lc.scale);
+	var i;
+	for (i=0; i < canvas_list.length; ++i) {
+	    canvas_list[i].style.height = viewport.height;
+	    canvas_list[i].style.width = viewport.width;
+	    canvas_list[i].height = viewport.height;
+	    canvas_list[i].width = viewport.width;
+	}	
+	var renderContext = {
+	    canvasContext: context,
+	    viewport: viewport
+	};
+	page.render(renderContext);
     };
+    lc.on("pan", function(pos) {
+	context.setTransform(1, 0, 0, 1, pos.x,
+			     pos.y);
+    });
+    lc.on("zoom", function() {
+	context.setTransform(1, 0, 0, 1, lc.position.x,
+			     lc.position.y);
+    });
     lc.on("repaint", function(layer) {
 	if (layer.layerKey != "background") {
 	    return;
 	}
-	draw_pdf(pageno);
+	draw_pdf();
     });
-
-    draw_pdf(pageno);
 });
 
 
