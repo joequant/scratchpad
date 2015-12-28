@@ -27,6 +27,9 @@ PDFJS.getDocument(pdf_file).then(function(pdf) {
 		canvas_list[i].height = viewport.height;
 		canvas_list[i].width = viewport.width;
 	    }
+	    var context = canvas.getContext('2d');
+	    context.setTransform(1, 0, 0, 1, lc.position.x,
+			      lc.position.y);
 	    var renderContext = {
 		canvasContext: context,
 		viewport: viewport
