@@ -16,6 +16,9 @@ var canvas_list =
 var draw_pdf = function() {};
 
 PDFJS.getDocument(pdf_file).then(function(pdf) {
+    var num_pages = pdf.numPages;
+    document.getElementById('numPages').textContent = num_pages;
+    document.getElementById('pageNumber').max = num_pages;
     pdf.getPage(pageno).then (
 	function(page) {
 	    draw_pdf = function() {
