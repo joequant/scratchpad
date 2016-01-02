@@ -14,6 +14,8 @@ var context = canvas.getContext('2d');
 var canvas_list =
     document.querySelectorAll('div.lc-drawing canvas');
 var draw_pdf = function() {};
+var shapes_pages = {}
+var bg_shapes_pages = {}
 
 PDFJS.getDocument(pdf_file).then(function(pdf) {
     var num_pages = pdf.numPages;
@@ -49,7 +51,14 @@ PDFJS.getDocument(pdf_file).then(function(pdf) {
 	    current_page = 1;
 	    return;
 	}
+	shapes_pages[current_page] = lc.shapes;
 	current_page = current_page - 1;
+	lc._shapesInProgress = []
+	if (shapes_pages[current_page] != undefined) {
+	    lc.shapes = shapes_pages[current_page];
+	} else {
+	    lc.shapes = [];
+	}
 	set_drawpdf(current_page);
     };
 
@@ -58,7 +67,14 @@ PDFJS.getDocument(pdf_file).then(function(pdf) {
 	    current_page = num_pages;
 	    return;
 	}
+	shapes_pages[current_page] = lc.shapes;
 	current_page = current_page + 1;
+	lc._shapesInProgress = []
+	if (shapes_pages[current_page] != undefined) {
+	    lc.shapes = shapes_pages[current_page];
+	} else {
+	    lc.shapes = [];
+	}
 	set_drawpdf(current_page);
     };
     
