@@ -78,6 +78,10 @@ PDFJS.getDocument(pdf_file).then(function(pdf) {
 	set_drawpdf(current_page);
     };
     
+    document.getElementById("print").onclick = function(event) {
+	window.print();
+    };
+    
     set_drawpdf(current_page);
 });
 
